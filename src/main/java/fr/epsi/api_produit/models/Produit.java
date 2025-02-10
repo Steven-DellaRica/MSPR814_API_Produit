@@ -1,8 +1,8 @@
-package com.example.api_produit.models;
+package fr.epsi.api_produit.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Produit {
@@ -13,6 +13,9 @@ public class Produit {
 
     private String nom;
     private double prix;
+
+    @ManyToOne
+    private Categorie categorie;
 
     public Produit() {
     }

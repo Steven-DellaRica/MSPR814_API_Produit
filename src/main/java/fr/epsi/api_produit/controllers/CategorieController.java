@@ -1,7 +1,7 @@
-package com.example.api_produit.controllers;
+package fr.epsi.api_produit.controllers;
 
-import com.example.api_produit.models.Categorie;
-import com.example.api_produit.services.CategorieService;
+import fr.epsi.api_produit.models.Categorie;
+import fr.epsi.api_produit.services.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

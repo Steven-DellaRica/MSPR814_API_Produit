@@ -1,7 +1,7 @@
-package com.example.api_produit.services;
+package fr.epsi.api_produit.services;
 
-import com.example.api_produit.models.Categorie;
-import com.example.api_produit.repositories.CategorieRepository;
+import fr.epsi.api_produit.models.Categorie;
+import fr.epsi.api_produit.repositories.CategorieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

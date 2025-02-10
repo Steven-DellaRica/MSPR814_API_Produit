@@ -1,4 +1,4 @@
-package com.example.api_produit.models;
+package fr.epsi.api_produit.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
