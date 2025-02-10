@@ -1,7 +1,6 @@
 package com.example.api_produit.controllers;
 
 import com.example.api_produit.models.Categorie;
-import com.example.api_produit.models.Produit;
 import com.example.api_produit.services.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
