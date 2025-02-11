@@ -2,7 +2,6 @@ package fr.epsi.api_produit.controllers;
 
 import fr.epsi.api_produit.models.Produit;
 import fr.epsi.api_produit.services.ProduitService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,11 @@ import java.util.Optional;
 @RequestMapping("/api/produits")
 public class ProduitController {
 
-    @Autowired
     private ProduitService produitService;
+
+    public ProduitController(ProduitService produitService) {
+        this.produitService = produitService;
+    }
 
     @GetMapping
     public List<Produit> getAllProduits() {
@@ -25,8 +27,7 @@ public class ProduitController {
     @GetMapping("/{id}")
     public ResponseEntity<Produit> getProduitById(@PathVariable String id) {
         Optional<Produit> produit = produitService.getProduitById(id);
-        return produit.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        return produit.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping
@@ -37,9 +38,9 @@ public class ProduitController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Produit> updateProduit(@PathVariable String id, @RequestBody Produit produit) {
-        Produit updatedProduit = produitService.updateProduit(id, produit);
-        return updatedProduit != null ? ResponseEntity.ok(updatedProduit)
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        System.out.println(produit);
+        Optional<Produit> updatedProduit = produitService.updateProduit(id, produit);
+        return updatedProduit.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @DeleteMapping("/{id}")

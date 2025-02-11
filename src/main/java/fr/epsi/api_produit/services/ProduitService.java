@@ -1,8 +1,9 @@
 package fr.epsi.api_produit.services;
 
+import fr.epsi.api_produit.models.Categorie;
 import fr.epsi.api_produit.models.Produit;
+import fr.epsi.api_produit.repositories.CategorieRepository;
 import fr.epsi.api_produit.repositories.ProduitRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,8 +12,13 @@ import java.util.Optional;
 @Service
 public class ProduitService {
 
-    @Autowired
-    private ProduitRepository produitRepo;
+    private final ProduitRepository produitRepo;
+    private final CategorieRepository categorieRepo;
+
+    public ProduitService(ProduitRepository produitRepo, CategorieRepository categorieRepo, ProduitRepository produitRepository) {
+        this.produitRepo = produitRepo;
+        this.categorieRepo = categorieRepo;
+    }
 
     public List<Produit> getAllProduits() {
         return produitRepo.findAll();
@@ -23,15 +29,24 @@ public class ProduitService {
     }
 
     public Produit addProduit(Produit produit) {
+        if (produit.getCategorie() != null && produit.getCategorie().getId() != null) {
+            Categorie categorie = categorieRepo.findById(produit.getCategorie().getId()).orElse(null);
+            produit.setCategorie(categorie);
+        }
         return produitRepo.save(produit);
     }
 
-    public Produit updateProduit(String id, Produit produit) {
-        if (produitRepo.existsById(id)) {
-            produit.setId(id);
+    public Optional<Produit> updateProduit(String id, Produit produitDetails) {
+        return produitRepo.findById(id).map(produit -> {
+            produit.setNom(produitDetails.getNom());
+            produit.setPrix(produitDetails.getPrix());
+            if(produitDetails.getCategorie() != null && produitDetails.getCategorie().getId() != null) {
+                Categorie categorie = categorieRepo.findById(produitDetails.getCategorie().getId()).orElse(null);
+                produit.setCategorie(categorie);
+            }
+            System.out.println("Nom de la catégorie du produit : " + produit.getCategorie().getNom());
             return produitRepo.save(produit);
-        }
-        return null;  // Retourner null si le produit n'existe pas
+        });
     }
 
     public void deleteProduit(String id) {

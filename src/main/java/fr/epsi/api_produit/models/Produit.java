@@ -2,7 +2,7 @@ package fr.epsi.api_produit.models;
 
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Produit {
@@ -18,6 +18,7 @@ public class Produit {
     private Categorie categorie;
 
     public Produit() {
+        this.id = UUID.randomUUID().toString();
     }
 
     public Produit(String nom, double prix) {
@@ -49,12 +50,21 @@ public class Produit {
         this.prix = prix;
     }
 
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
+
     @Override
     public String toString() {
         return "Produit{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
                 ", prix=" + prix +
+                ", categorie=" + categorie +
                 '}';
     }
 

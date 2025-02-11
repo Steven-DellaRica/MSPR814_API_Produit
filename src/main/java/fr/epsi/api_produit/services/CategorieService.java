@@ -19,6 +19,7 @@ public class CategorieService {
     }
 
     public Optional<Categorie> getCategorieById(String id) {
+
         return categorieRepository.findById(id);
     }
 
