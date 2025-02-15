@@ -2,6 +2,7 @@ package fr.epsi.api_produit.controllers;
 
 import fr.epsi.api_produit.models.Produit;
 import fr.epsi.api_produit.services.ProduitService;
+import fr.epsi.api_produit.services.RabbitMQSender;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +14,12 @@ import java.util.Optional;
 @RequestMapping("/api/produits")
 public class ProduitController {
 
+    private final RabbitMQSender rabbitMQSender;
     private ProduitService produitService;
 
-    public ProduitController(ProduitService produitService) {
+    public ProduitController(ProduitService produitService, RabbitMQSender rabbitMQSender) {
         this.produitService = produitService;
+        this.rabbitMQSender = rabbitMQSender;
     }
 
     @GetMapping
@@ -34,6 +37,12 @@ public class ProduitController {
     public ResponseEntity<Produit> addProduit(@RequestBody Produit produit) {
         Produit savedProduit = produitService.addProduit(produit);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProduit);
+    }
+
+    @PostMapping("/send")
+    public String sendMessage(@RequestBody String message) {
+        rabbitMQSender.sendMessage(message);
+        return "Message sent depuis l'API_Produit : " + message;
     }
 
     @PutMapping("/{id}")
